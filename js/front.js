@@ -5,14 +5,14 @@ var canvasDimension = 2;
 var gridLimit = 40;
 var initialGrids = [];
 var hex = []; 
+var music = [];
+
 /*------------------------------------------------------------------------------*/
 
 
 /*------------------------ EVENT LISTENERS ------------------------------------*/
 
 $(document).ready(function () {
-
-    //console.log(isBeyondCanvas(6,-2));
     $('#grid-size-button').click(function () {
 
         canvasDimension = canvasDimension + 2;
@@ -33,7 +33,7 @@ $(document).ready(function () {
     });
 
     $('#light').click(function () {
-
+        extrusion(-3);
     });
     
 });
@@ -150,13 +150,22 @@ function averageBar(newHex,start,length,reduction){
         newHex[i]=average;
     }
 }
+function canvassPattern(){
+    var n=Math.pow(canvasDimension, 2);
+    for(var i=1;i<=n;i++){
+        if((hex[i].substr(0,6)=="FFFFFF")&&((i%2))==(((Math.ceil(i/canvasDimension))-1)%2)){
+            changeCellColorRGB(240, 240, 240, 1,i);
+            console.log(i);
+        }
+    }
+}
 function extrusion(value){
     var g = $('#canvas-area').width() / canvasDimension;
     var n = Math.pow($('#canvas-area').width() / g, 2);
     var newHex = [];
     var length=0;
     for(var i=1;i<=n;i++){
-        newHex[i] = "FFFFFF00";
+        newHex[i] = "FFFFFFFF";
     }
     if(value>0){
         var divisor =(value*2) +1;
@@ -192,6 +201,7 @@ function extrusion(value){
         hex[i]=newHex[i];
         changeCellColor(hex[i],i);
     }
+    canvassPattern();
 }
 function translation(value){
     var g = $('#canvas-area').width() / canvasDimension;
@@ -199,7 +209,7 @@ function translation(value){
     var l = canvasDimension;
     var newHex = [];
     for(var i=1;i<=n;i++){
-        newHex[i] = "FFFFFF00";
+        newHex[i] = "FFFFFFFF";
     }
     for(var i=1;i<=n;i++){
         if(!(hex[i].substr(0,6)=="FFFFFF")){
@@ -212,6 +222,7 @@ function translation(value){
         hex[i]=newHex[i];
         changeCellColor(hex[i],i);
     }
+    canvassPattern();
 }
 function hue(value){
     n=Math.pow(canvasDimension, 2);
@@ -248,11 +259,11 @@ function hue(value){
     for(var i=1;i<=n;i++){
         if(!(hex[i].substr(0,6)=="FFFFFF"))
             newHex[i]=addColors(hex[i],pitchColor);    
-        console.log(newHex[i]);
     }
     for(var i=1;i<=n;i++){
         hex[i]=newHex[i];
         changeCellColor(hex[i],i);
     }
+    canvassPattern();
 }
 /*-------------------------------------------------------------------------------*/
