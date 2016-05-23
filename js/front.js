@@ -4,7 +4,7 @@
 var canvasDimension = 2;
 var gridLimit = 40;
 var initialGrids = [];
-
+var hex = []; 
 /*------------------------------------------------------------------------------*/
 
 
@@ -33,16 +33,11 @@ $(document).ready(function () {
     });
 
     $('#light').click(function () {
-        extrusion(4);
-
-    });
-    $('#light2').click(function () {
-        extrusion(-4);
 
     });
     
 });
-var hex = []; 
+
 /*-------------------------------------------------------------------------------*/
 
 /*------------------------ METHOD DEFINITIONS -----------------------------------*/
@@ -72,12 +67,14 @@ function initCanvas(g){
             '" class="' + class2 + '" style="height: ' + g + 'px; width: ' + g + 'px;"></div>');
         }
     }
-    
-
+    //if ibutang ni nga function inside document.ready kay dili maasignan ug events ang cells kay wa pa man ka nakacreate ug cells/canvas
+    //where to put this tho
     $('.cell').click(function (){
         index=$(this).attr('id').split("_")[1];
         changeCellColor("80808080",index);
     });
+
+    
 }
 
 function isBeyondCanvas(currentCellNumber, offset){
@@ -126,6 +123,9 @@ function addColors(h1,h2){
     }
 }
 function averageBar(newHex,start,length,reduction){
+    if((reduction*2)>=length){
+        reduction=Math.ceil(length/2)-1;
+    }
     var r=0;
     var g=0;
     var b=0;
@@ -207,6 +207,48 @@ function translation(value){
                 newHex[i+(l*value)]=hex[i];
             }
         }
+    }
+    for(var i=1;i<=n;i++){
+        hex[i]=newHex[i];
+        changeCellColor(hex[i],i);
+    }
+}
+function hue(value){
+    n=Math.pow(canvasDimension, 2);
+    var newHex = [];
+    for(var i=1;i<=n;i++){
+        newHex[i]=hex[i];
+    }    
+    var pitchColor;
+    if(value==1)
+        pitchColor="AA780010";
+    else if(value==2)
+        pitchColor="B5410010";
+    else if(value==3)
+        pitchColor="B5004110";
+    else if(value==4)
+        pitchColor="AA007810";
+    else if(value==5)
+        pitchColor="7800AA10";
+    else if(value==6)
+        pitchColor="4100B510";
+    else if(value==7)
+        pitchColor="0041B510";
+    else if(value==8)
+        pitchColor="0078AA10";
+    else if(value==9)
+        pitchColor="00AA7810";
+    else if(value==10)
+        pitchColor="00B54110";
+    else if(value==11)
+        pitchColor="41B50010";
+    else if(value==12)
+        pitchColor="78AA0010";
+
+    for(var i=1;i<=n;i++){
+        if(!(hex[i].substr(0,6)=="FFFFFF"))
+            newHex[i]=addColors(hex[i],pitchColor);    
+        console.log(newHex[i]);
     }
     for(var i=1;i<=n;i++){
         hex[i]=newHex[i];
