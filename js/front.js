@@ -7,6 +7,7 @@ var initialGrids = [];
 var hex = []; 
 var music = [];
 var currentNote=0;
+var g;
 /*------------------------------------------------------------------------------*/
 
 
@@ -16,7 +17,7 @@ $(document).ready(function () {
     $('#resize-button').click(function () {
 
         canvasDimension = canvasDimension + 2;
-        var g = $('#canvas-area').width() / canvasDimension;
+        g = $('#canvas-area').width() / canvasDimension;
 
         //checks if calculated grid size is an integer (only integers can be set as css width for grid)
         while (!(typeof g === 'number' && (g % 1) === 0)) {
@@ -31,21 +32,50 @@ $(document).ready(function () {
         $(this).attr('value', canvasDimension + ' x ' + canvasDimension);
         initCanvas(g);
     });
-
+    $('#input-button').click(function () {
+        $('#page-overlay').attr('class','overlay animate3s');
+    });
+    $('#save-input').click(function () {
+        $('#page-overlay').attr('class','underlay animate3s');
+        music=$('#input-box').val().split(' ');
+        console.log(music[0]);
+    });
+    $('#close-input').click(function () {
+        $('#page-overlay').attr('class','underlay animate3s');
+    });
     $('#next-button').click(function () {
         if(currentNote==0){
             transition("0",music[currentNote]);    
-            $('#current-state').html(currentNote+1);
+            $('#current-state').html((currentNote+1)+"/"+music.length);
         }
         else if(currentNote<music.length){
             transition(music[currentNote-1],music[currentNote]);
-            $('#current-state').html(currentNote+1);
+            $('#current-state').html((currentNote+1)+"/"+music.length);
         }
         currentNote++;
     });
+    $('#previous-button').click(function () {
+        currentNote=0;
+        $('#current-state').html((currentNote)+"/"+music.length);
+        $('#duration').html("---");
+        $('#pitch').html("---");
+        $('#octave').html("---");
+        
+        var n=Math.pow(canvasDimension,2);
+        for(var i=1;i<=n;i++){
+            changeCellColor("FFFFFFFF",i);
+            console.log(i);
+        }
+        canvassPattern();
+    });
     $(document).on('click','.cell',function (){
         index=$(this).attr('id').split("_")[1];
-        changeCellColor("80808080",index);
+        if($(this).css('background-color')=="rgba(128, 128, 128, 0.501961)"){
+            changeCellColor("FFFFFFFF",index);
+        }
+        else{
+            changeCellColor("80808080",index);
+        }
     });
 });
 
@@ -78,30 +108,6 @@ function initCanvas(g){
             '" class="' + class2 + '" style="height: ' + g + 'px; width: ' + g + 'px;"></div>');
         }
     }
-    
-    music[0]="7F1";
-    music[1]="9A1";
-    music[2]="9D2";
-    //rest
-    music[3]="7E1";
-    music[4]="9A1";
-    music[5]="9C2";
-    //rest
-    music[6]="7D1";
-    music[7]="9F1";
-    music[8]="9B1";
-    //rest
-    music[9]="7C1";
-    music[10]="9F1";
-    music[11]="9A1";
-    //rest
-    music[12]="7B0";
-    music[13]="9D1";
-    music[14]="9G1";
-    //rest
-    music[15]="7A0";
-    music[16]="9D1";
-    music[17]="9F1";
 }
 
 function isBeyondCanvas(currentCellNumber, offset){
@@ -379,6 +385,6 @@ function transition(pString,mString){
     $('#octave').html(toOrdinal(parseInt(octave)+3));
     extrusion(duration-pDuration);
     hue(pitch);
-    translation(octave-pOctave);
+    translation(-(octave-pOctave));
 }
 /*-------------------------------------------------------------------------------*/
