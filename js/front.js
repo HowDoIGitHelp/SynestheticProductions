@@ -6,14 +6,14 @@ var gridLimit = 40;
 var initialGrids = [];
 var hex = []; 
 var music = [];
-
+var currentNote=0;
 /*------------------------------------------------------------------------------*/
 
 
 /*------------------------ EVENT LISTENERS ------------------------------------*/
 
 $(document).ready(function () {
-    $('#grid-size-button').click(function () {
+    $('#resize-button').click(function () {
 
         canvasDimension = canvasDimension + 2;
         var g = $('#canvas-area').width() / canvasDimension;
@@ -32,10 +32,21 @@ $(document).ready(function () {
         initCanvas(g);
     });
 
-    $('#light').click(function () {
-        extrusion(-3);
+    $('#next-button').click(function () {
+        if(currentNote==0){
+            transition("0",music[currentNote]);    
+            $('#current-state').html(currentNote+1);
+        }
+        else if(currentNote<music.length){
+            transition(music[currentNote-1],music[currentNote]);
+            $('#current-state').html(currentNote+1);
+        }
+        currentNote++;
     });
-    
+    $(document).on('click','.cell',function (){
+        index=$(this).attr('id').split("_")[1];
+        changeCellColor("80808080",index);
+    });
 });
 
 /*-------------------------------------------------------------------------------*/
@@ -67,14 +78,30 @@ function initCanvas(g){
             '" class="' + class2 + '" style="height: ' + g + 'px; width: ' + g + 'px;"></div>');
         }
     }
-    //if ibutang ni nga function inside document.ready kay dili maasignan ug events ang cells kay wa pa man ka nakacreate ug cells/canvas
-    //where to put this tho
-    $('.cell').click(function (){
-        index=$(this).attr('id').split("_")[1];
-        changeCellColor("80808080",index);
-    });
-
     
+    music[0]="7F1";
+    music[1]="9A1";
+    music[2]="9D2";
+    //rest
+    music[3]="7E1";
+    music[4]="9A1";
+    music[5]="9C2";
+    //rest
+    music[6]="7D1";
+    music[7]="9F1";
+    music[8]="9B1";
+    //rest
+    music[9]="7C1";
+    music[10]="9F1";
+    music[11]="9A1";
+    //rest
+    music[12]="7B0";
+    music[13]="9D1";
+    music[14]="9G1";
+    //rest
+    music[15]="7A0";
+    music[16]="9D1";
+    music[17]="9F1";
 }
 
 function isBeyondCanvas(currentCellNumber, offset){
@@ -139,12 +166,9 @@ function averageBar(newHex,start,length,reduction){
     r=Math.floor(r/length);
     g=Math.floor(g/length);
     b=Math.floor(b/length);
-    console.log(a);
     a=Math.floor(a/(length-(reduction*2)));
-    console.log(a);
     if(a>255)
         a=255;
-    console.log(a);
     average = ("0"+r.toString(16)).slice(-2)+("0"+g.toString(16)).slice(-2)+("0"+b.toString(16)).slice(-2)+("0"+a.toString(16)).slice(-2);
     for(var i=start+reduction;i<((start+length)-reduction);i++){
         newHex[i]=average;
@@ -155,7 +179,6 @@ function canvassPattern(){
     for(var i=1;i<=n;i++){
         if((hex[i].substr(0,6)=="FFFFFF")&&((i%2))==(((Math.ceil(i/canvasDimension))-1)%2)){
             changeCellColorRGB(240, 240, 240, 1,i);
-            console.log(i);
         }
     }
 }
@@ -167,7 +190,10 @@ function extrusion(value){
     for(var i=1;i<=n;i++){
         newHex[i] = "FFFFFFFF";
     }
-    if(value>0){
+    if(value==0){
+        return;
+    }
+    else if(value>0){
         var divisor =(value*2) +1;
         for(var i=1;i<=n;i++){
             if(!(hex[i].substr(0,6)=="FFFFFF")){
@@ -231,31 +257,32 @@ function hue(value){
         newHex[i]=hex[i];
     }    
     var pitchColor;
-    if(value==1)
+    if(value=='E')
         pitchColor="AA780010";
-    else if(value==2)
+    else if(value=='A')
         pitchColor="B5410010";
-    else if(value==3)
+    else if(value=='D')
         pitchColor="B5004110";
-    else if(value==4)
+    else if(value=='G')
         pitchColor="AA007810";
-    else if(value==5)
+    else if(value=='C')
         pitchColor="7800AA10";
-    else if(value==6)
+    else if(value=='F')
         pitchColor="4100B510";
-    else if(value==7)
+    else if(value=='A#')
         pitchColor="0041B510";
-    else if(value==8)
+    else if(value=='D#')
         pitchColor="0078AA10";
-    else if(value==9)
+    else if(value=='G#')
         pitchColor="00AA7810";
-    else if(value==10)
+    else if(value=="C#")
         pitchColor="00B54110";
-    else if(value==11)
+    else if(value=="F#")
         pitchColor="41B50010";
-    else if(value==12)
+    else if(value=="B")
         pitchColor="78AA0010";
-
+    else
+        pitchColor=="80808080"
     for(var i=1;i<=n;i++){
         if(!(hex[i].substr(0,6)=="FFFFFF"))
             newHex[i]=addColors(hex[i],pitchColor);    
@@ -265,5 +292,93 @@ function hue(value){
         changeCellColor(hex[i],i);
     }
     canvassPattern();
+}
+function getDuration(duration){
+    if(duration==14)
+        return "1";
+    else if(duration==13)
+        return "1 + 1/2";
+    else if(duration==12)
+        return "1/2 + 1/4 + 1/8";
+    else if(duration==11)
+        return "1/2 + 1/4";
+    else if(duration==10)
+        return "1/2";
+    else if(duration==9)
+        return "1/4 + 1/8 + 1/16";
+    else if(duration==8)
+        return "1/4 + 1/8";
+    else if(duration==7)
+        return "1/4";
+    else if(duration==6)
+        return "1/8 + 1/16 + 1/32";
+    else if(duration==5)
+        return "1/8 + 1/16";
+    else if(duration==4)
+        return "1/8";
+    else if(duration==3)
+        return "1/16 + 1/32 + 1/64";
+    else if(duration==2)
+        return "1/16 + 1/32";
+    else if(duration==1)
+        return "1/16";
+    else
+        return "invalid";
+}
+function toOrdinal(number){
+    if(number==1)
+        return number.toString(10)+"th";
+    else if(number==2)
+        return number+"nd";
+    else if(number==3)
+        return number.toString(10)+"rd";
+    else
+        return number.toString(10)+"th";
+}
+function transition(pString,mString){
+    var i;
+    var newStart=0;
+    var duration,pDuration;
+    var pitch,pPitch;
+    var octave,pOctave;
+    var number = new RegExp("^[0-9]*$");
+    var integer = new RegExp("^-?[0-9]*$");
+    var note = new RegExp("^[a-hA-H]#?$");
+
+   
+    console.log(pString+" "+mString);
+    if(pString=="0"){
+        pDuration=0;
+        pPitch="H";
+        pOctave=0
+    }
+    else{
+        var newStart=0;
+        for(i=1;number.test(pString.substr(0,i))&&i<=pString.length;i++){};
+        pDuration=pString.substr(0,i-1);
+        newStart+=i-1;
+        for(i=1;note.test(pString.substr(newStart,i))&&i<=pString.length;i++){};
+        pPitch=pString.substr(newStart,i-1);
+        newStart+=i-1;
+        for(i=1;integer.test(pString.substr(newStart,i))&&(newStart+i)<=pString.length;i++){};
+        pOctave=pString.substr(newStart,i-1);
+    }
+
+    newStart=0;
+    for(i=1;number.test(mString.substr(0,i))&&i<=mString.length;i++){};
+    duration=mString.substr(0,i-1)
+    newStart+=i-1;
+    for(i=1;note.test(mString.substr(newStart,i))&&i<=mString.length;i++){};
+    pitch=mString.substr(newStart,i-1);
+    newStart+=i-1;
+    for(i=1;integer.test(mString.substr(newStart,i))&&(newStart+i)<=mString.length;i++){};
+    octave=mString.substr(newStart,i-1);
+
+    $('#duration').html(getDuration(duration));
+    $('#pitch').html(pitch);
+    $('#octave').html(toOrdinal(parseInt(octave)+3));
+    extrusion(duration-pDuration);
+    hue(pitch);
+    translation(octave-pOctave);
 }
 /*-------------------------------------------------------------------------------*/

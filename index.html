@@ -10,10 +10,10 @@
     </head>
     <body>
         <div id="transition-buttonsh">
-            <div class="transition-button animate2s">
+            <div id="previous-button" class="transition-button animate2s">
                 <img alt="next" id="left-arrow" class="dead-center" src="resources/svg/right-arrow.svg"/>
             </div>
-            <div class="transition-button animate2s" >
+            <div id="next-button" class="transition-button animate2s" >
                 <img alt="next" class="dead-center" src="resources/svg/right-arrow.svg"/>
             </div>
         </div>
@@ -29,19 +29,19 @@
             <div id="divider"></div>
             <div id="parse-console">
                 <div class="parse-label">CURRENT DURATION</div>
-                <div class="parse-value">1/4 + 1/8</div>
+                <div id="duration" class="parse-value">1/4 + 1/8</div>
                 <div id="pitch-octave">
                     <div class="poh">
                         <div class="parse-label">CURRENT PITCH</div>
-                        <div class="parse-value">C#</div>
+                        <div id="pitch" class="parse-value">C#</div>
                     </div>
                     <div class="poh">
                         <div class="parse-label">OCTAVE</div>
-                        <div class="parse-value">4th</div>
+                        <div id="octave" class="parse-value">4th</div>
                     </div>
                 </div>
                 <div class="parse-label">CURRENT STATE</div>
-                <div class="parse-value">1</div>
+                <div id="current-state" class="parse-value">0</div>
             </div>
             
             <div id="input-button" class="animate2s">
