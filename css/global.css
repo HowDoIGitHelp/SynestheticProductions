@@ -194,17 +194,52 @@ body, textarea{
     transform: rotate(180deg);
 }
 #page-overlay{
-    background-color: rgba(255 ,255, 255, 0.7);
     position: fixed;
     height: 100%;
     width: 100%;
+}
+.underlay{
+    background-color: rgba(255 ,255, 255, 0.4);
+    z-index: -500;
+}
+.overlay{
+    background-color: rgba(255 ,255, 255, 0.7);
     z-index: 500;
 }
-#configure-box{
-    position: fixed;
-    z-index: 500;
+#input-boxh{
+    position: absolute;
     height: 500px;
     width: 500px;
     background-color: white;
+    border: 1px solid rgb(230, 230, 230);
+    text-align: center;
+}
+.make-relative{
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+#input-header{
+    width: auto;
+    font-weight: bold;
+    color: rgb(100, 100, 100);
+    margin: 30px 0px 0px 0px;
+}
+#input-box{
+    border: 0px;
+    background-color: rgb(240, 240, 240);
+    width: 90%;
+    padding: 7px 0px 0px 7px;
+    margin-top: 20px;
+    height: 70%;
+    overflow: auto;
+}
+#save-input{
+    display: inline-block;
+    margin-top: 10px;
     border: 1px solid rgb(220, 220, 220);
+    background-color: white;
+    padding: 10px 30px 10px 30px;
+    color: rgb(100, 100, 100);
+    cursor: pointer;
 }

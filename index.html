@@ -9,6 +9,17 @@
         <script src="js/front.js"></script>
     </head>
     <body>
+
+        <div id="page-overlay" class="underlay animate3s">
+            <div class="make-relative">
+                <div id="input-boxh" class="dead-center">
+                    <div id="input-header">INPUT SCORE HERE: </div>
+                    <textarea id="input-box" rows="10" cols="5"></textarea>
+                    <input type="button" id="save-input" value="Save"/>
+                    <input type="button" id="save-input" value="Close"/>
+                </div>
+            </div>
+        </div>
         <div id="transition-buttonsh">
             <div class="transition-button animate2s">
                 <img alt="next" id="left-arrow" class="dead-center" src="resources/svg/right-arrow.svg"/>
@@ -37,11 +48,11 @@
                     </div>
                     <div class="poh">
                         <div class="parse-label">OCTAVE</div>
-                        <div class="parse-value">4th</div>
+                        <div class="parse-value">4</div>
                     </div>
                 </div>
                 <div class="parse-label">CURRENT STATE</div>
-                <div class="parse-value">1</div>
+                <div class="parse-value">1/8</div>
             </div>
             
             <div id="input-button" class="animate2s">
