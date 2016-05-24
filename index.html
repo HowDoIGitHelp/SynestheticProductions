@@ -9,6 +9,15 @@
         <script src="js/front.js"></script>
     </head>
     <body>
+
+        <div id="transition-buttonsh">
+            <div class="transition-button animate2s">
+                <img alt="next" id="left-arrow" class="dead-center" src="resources/svg/right-arrow.svg"/>
+            </div>
+            <div class="transition-button animate2s" >
+                <img alt="next" class="dead-center" src="resources/svg/right-arrow.svg"/>
+            </div>
+        </div>
         <div id="sidebar">
             <div id="app-idheader">
                 <div id="app-iconh">
@@ -22,10 +31,28 @@
             <div id="parse-console">
                 <div class="parse-label">CURRENT DURATION</div>
                 <div class="parse-value">1/4 + 1/8</div>
-                <div class="parse-label">CURRENT PITCH</div>
-                <div class="parse-value">C#</div>
+                <div id="pitch-octave">
+                    <div class="poh">
+                        <div class="parse-label">CURRENT PITCH</div>
+                        <div class="parse-value">C#</div>
+                    </div>
+                    <div class="poh">
+                        <div class="parse-label">OCTAVE</div>
+                        <div class="parse-value">4th</div>
+                    </div>
+                </div>
+                <div class="parse-label">CURRENT STATE</div>
+                <div class="parse-value">1</div>
             </div>
             
+            <div id="settings-button" class="animate2s">
+                <div id="settings-iconh">
+                    <img alt="settings" class="dead-center" src="resources/svg/cogwheel.svg"/>
+                </div>
+                <div id="settings-labelh">
+                    <div>CONFIGURE APP</div>
+                </div>
+            </div>
             <div class="controls-container">
                 <input type="button" value="Resize Grid" class="control-button" id="grid-size-button"/>
                 <input type="button" value="Extrude" class="control-button" id="light"/>

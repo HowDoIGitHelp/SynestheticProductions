@@ -103,19 +103,90 @@ body, textarea{
 #parse-console{
     height: 300px;
     width: 100%;
-    border-bottom: 1px solid gray;
 }
 .parse-label{
     width: 90%;
     margin: auto;
+    font-size: 13px;
 }
 .parse-value{
     width: 90%;
     margin: auto;
     margin-top: 10px;
-    font-size: 40px;
+    font-size: 35px;
     margin-bottom: 30px;
 }
 #divider{
     width: 90%;
+    margin: auto;
+    border-bottom: 1px solid rgb(200, 200, 200);
+    margin-bottom: 40px;
+}
+#pitch-octave{
+    width: 90%;
+    height: 75px;
+    margin: auto;
+}
+.poh{
+    float: left;
+    width: 45%;
+}
+#settings-button{
+    height: 60px;
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+#settings-button:hover{
+    background-color: rgb(220, 220, 220);
+}
+#settings-iconh{
+    height: 100%;
+    width: 20%;
+    float: left;
+    position: relative;
+}
+#settings-iconh > img{
+    position: absolute;
+    height: 55%;
+    width: 55%;
+}
+#settings-labelh{
+    float: left;
+    width: 70%;
+}
+#settings-labelh > div{
+    margin-top: 21px;
+}
+#transition-buttonsh{
+    position: fixed;
+    text-align: center;
+    margin: auto;
+    top: 20px;
+    height: 70px;
+    width: 30%;
+    left: 0px;
+    right: 0px;
+    z-index: 200;
+}
+.transition-button{
+    display: inline-block;
+    position: relative;
+    height: 70px;
+    width: 70px;
+    background-color: darkcyan;
+    border-radius: 35px;
+    margin: 0px 10px 0px 10px;
+    background-color: rgba(240, 240, 240, 0.6);
+    cursor: pointer;
+}
+.transition-button > img{
+    width: 45%;
+    height: 45%;
+}
+.transition-button:hover{
+    background-color: rgb(220, 220, 220);
+}
+#left-arrow{
+    transform: rotate(180deg);
 }
